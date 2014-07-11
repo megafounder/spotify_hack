@@ -24,12 +24,15 @@
   var setingData = function(response) {
     // set up the data of the player
     var albumName = response.album.name;
+    var albumCover = response.album.images[0].url;
     var songName = response.name;
     var authorName = response.artists[0].name;
 
     $('.title').text(songName);
     $('.author').text(authorName);
     $('.btn-play').removeClass('disabled');
+    $('.cover').children([0]).attr('src', albumCover);
+    
   };
 
   // play song
