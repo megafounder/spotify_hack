@@ -3,8 +3,30 @@
 
   var response;
 
+
   // get song from spotify's API
-  var xhr = new XMLHttpRequest();
+
+  var getSong = function (id){
+    var xhr = new XMLHttpRequest();
+    //var idString = id.toString();
+    var url = "https://api.spotify.com/v1/tracks/" + id;
+    xhr.open('GET', url);
+
+    xhr.setRequestHeader('Accept', 'application/json');
+
+    xhr.onload = function() {
+      if (this.status === 200) { // the result is OK
+        response = JSON.parse(this.response);
+        console.log('onload response', response);
+        setingData(response);
+        playSong(response);
+        statusBar(response);
+      }
+   };
+   xhr.send();
+  } ;
+
+ /* var xhr = new XMLHttpRequest();
   xhr.open('GET', 'https://api.spotify.com/v1/tracks/2Foc5Q5nqNiosCNqttzHof');
 
   xhr.setRequestHeader('Accept', 'application/json');
@@ -19,7 +41,7 @@
     }
   };
 
-  xhr.send();
+  xhr.send(); */
 
   var setingData = function(response) {
     // set up the data of the player
@@ -32,7 +54,7 @@
     $('.author').text(authorName);
     $('.btn-play').removeClass('disabled');
     $('.cover').children([0]).attr('src', albumCover);
-    
+
   };
 
   // play song
@@ -63,5 +85,17 @@
     });
 
   };
+
+
+  var selectSong = function(){
+
+    $('button').on('click', function(event){
+      //funcion que captura el id del input field en forma de string
+      getSong();
+    });
+
+    
+
+  }; 
 
 })(window);
