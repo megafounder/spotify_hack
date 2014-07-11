@@ -15,6 +15,7 @@
       console.log('onload response', response);
       setingData(response);
       playSong(response);
+      statusBar(response);
     }
   };
 
@@ -43,6 +44,19 @@
         document.getElementById('audio').play();
       else
         document.getElementById('audio').pause();
+    });
+  };
+
+  var statusBar = function(response){
+
+    // Duration of the song
+    var duration = response.duration_ms;
+    $('progress').attr('max', duration);
+
+    $('#audio').on('timeupdate', function(event){
+      var time = document.getElementById('audio').currentTime;
+
+      $('progress').attr('value', time*1000);
     });
 
   };
